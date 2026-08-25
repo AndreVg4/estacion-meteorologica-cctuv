@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estacion Meteorológica | CCTUV</title>
+    <link href="https://www.uv.mx/cienti/files/2013/02/CCTUV.jpg">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #0f172a;
+            --accent: #10b981;
+            --background: #f1f5f9;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+        }
+
+        body { font-family: 'Inter', sans-serif; background-color: var(--background); margin: 0; color: var(--text-main); }
+
+        /* --- HEADER --- */
+        header { 
+            background: var(--secondary); color: white; padding: 1rem 2rem;
+            display: flex; justify-content: center; border-bottom: 4px solid var(--primary);
+        }
+        .header-container { width: 100%; max-width: 1400px; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 2rem; }
+        .logo-box { background: rgba(255,255,255,0.95); padding: 8px; border-radius: 10px; }
+        .header-logo { height: 45px; }
+        .title-group { text-align: center; }
+        #live-clock { font-family: monospace; color: var(--accent); font-size: 1rem; margin-top: 5px; display: block;}
+
+        /* --- GRID PRINCIPAL --- */
+        .dashboard-wrapper { max-width: 1400px; margin: 1.5rem auto; padding: 0 1.5rem; display: flex; flex-direction: column; gap: 1.5rem; }
+        
+        /* Fila Superior: Datos, Foto Estación y Mapa */
+        .top-row { display: grid; grid-template-columns: 1fr 350px 350px; gap: 1.5rem; }
+
+        /* --- TARJETAS --- */
+        .card { background: var(--card-bg); border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; overflow: hidden; display: flex; flex-direction: column; }
+        .card-header { padding: 0.8rem 1.2rem; border-bottom: 1px solid #f1f5f9; font-weight: 700; font-size: 0.9rem; color: var(--secondary); background: #f8fafc; }
+        
+        /* Stats Grid Interno */
+        .stats-inner-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; padding: 1.2rem; flex: 1; }
+        .stat-box { background: #f8fafc; padding: 1rem; border-radius: 8px; border: 1px solid #edf2f7; text-align: center; }
+        .stat-val { display: block; font-size: 1.8rem; font-weight: 700; color: var(--primary); }
+        .stat-lbl { font-size: 0.7rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px; }
+
+        /* Contenedores de Imágenes */
+        .img-container { width: 100%; height: 100%; min-height: 200px; background: #e2e8f0; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+        .img-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+        .img-container img:hover { transform: scale(1.05); }
+        .img-caption { position: absolute; bottom: 0; background: rgba(0,0,0,0.6); color: white; width: 100%; padding: 5px; font-size: 0.75rem; text-align: center; }
+
+        /* SECCIÓN FOTOS FACULTAD (Fila Media) */
+        .gallery-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+
+        /* SECCIÓN WINDY (Abajo) */
+        .windy-row { height: 500px; }
+
+        /* STATUS BAR */
+        .status-bar { background: var(--secondary); color: #94a3b8; padding: 0.6rem 1.5rem; display: flex; justify-content: space-between; font-size: 0.8rem; border-radius: 8px; }
+        .dot { height: 8px; width: 8px; background: var(--accent); border-radius: 50%; display: inline-block; margin-right: 5px; animation: blink 2s infinite; }
+        @keyframes blink { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
+
+        @media (max-width: 1024px) {
+            .top-row, .gallery-row { grid-template-columns: 1fr; }
+            .windy-row { height: 400px; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-container">
+        <div class="logo-box"><img src="https://www.uv.mx/cienti/files/2013/02/CCTUV.jpg" class="header-logo"></div>
+        <div class="title-group">
+            <h1 style="margin:0; font-size: 1.4rem;">ESTACION METEOROLOGICA CCTUV</h1>
+            <span id="live-clock">--:--:--</span>
+        </div>
+        <div class="logo-box"><img src="https://media.istockphoto.com/id/121080798/es/foto/estaci%C3%B3n-meteorol%C3%B3gica.jpg?s=612x612&w=0&k=20&c=LjkjcRgbjEw58Czn8fAyebBS4TstOp0cWTFY2Sb5gP4=" class="header-logo"></div>
+    </div>
+</header>
+
+<div class="dashboard-wrapper">
+    
+    <div class="top-row">
+        <div class="card">
+            <div class="card-header"> VARIABLES EN TIEMPO REAL</div>
+            <div class="stats-inner-grid">
+                <div class="stat-box">
+                    <span class="stat-lbl">Temperatura</span>
+                    <span class="stat-val" id="temp">--°</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-lbl">Humedad / Presión</span>
+                    <span class="stat-val" id="pres" style="font-size: 1.4rem;">--</span>
+                    <span style="font-size: 0.7rem; color: gray;">hPa</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-lbl">Viento</span>
+                    <span class="stat-val" id="wind" style="font-size: 1.4rem;">--</span>
+                    <span id="dir-label" style="font-size: 0.7rem; color: var(--primary); font-weight: bold;">--</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-lbl">Lluvia</span>
+                    <span class="stat-val" id="rain">--</span>
+                    <span style="font-size: 0.7rem; color: gray;">mm</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">ESTACIÓN CCTUV</div>
+            <div class="img-container">
+                <img src="https://media.istockphoto.com/id/121080798/es/foto/estaci%C3%B3n-meteorol%C3%B3gica.jpg?s=612x612&w=0&k=20&c=LjkjcRgbjEw58Czn8fAyebBS4TstOp0cWTFY2Sb5gP4=">
+                <div class="img-caption">Estacion desarrollada por estudiantes de Ingenieria en Instrumentacion Electronica</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header"> UBICACIÓN </div>
+            <div class="img-container">
+                <iframe src="https://maps.google.com/maps?q=Centro%20de%20Ciencias%20de%20la%20Tierra%20Universidad%20Veracruzana,%20Xalapa&t=k&z=18&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <div class="gallery-row">
+        <div class="card">
+            <div class="card-header"> FACULTAD DE INSTRUMENTACIÓN ELECTRÓNICA</div>
+            <div class="img-container" style="min-height: 250px;">
+                <img src="https://scontent.fjal1-1.fna.fbcdn.net/v/t39.30808-6/468653060_2933917916755993_3514398036938115369_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=2a1932&_nc_eui2=AeHNQESnZt_OnrbJ8Em17I05zyyP2Tpdco3PLI_ZOl1yjXA0Tud6n77xWIx0wRpBbp6K4BFEHT8wGxVhjgCLTqZh&_nc_ohc=Gu5lZe36FmMQ7kNvwE7EVWU&_nc_oc=AdmX9cAyWPZYmWCDptu950K8agg5S2fWQk-Zy5egjcnscGW6OS5KHJzH9juPK3VasdYgCwGNBfZQcdl25IfL3uPc&_nc_zt=23&_nc_ht=scontent.fjal1-1.fna&_nc_gid=liuqBarK5Trxc6OeoF-v1w&_nc_ss=8&oh=00_AfzFw6LilRnxfLG-pUU9r5OOvUIV2STDcLnvrekwYQTf7w&oe=69B1C5D8" alt="Facultad UV">
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header"> CENTRO DE CIENCIAS DE LA TIERRA</div>
+            <div class="img-container" style="min-height: 250px;">
+                <img src="https://via.placeholder.com/600x300/10b981/ffffff?text=Instalaciones+CCT" alt="CCT UV">
+            </div>
+        </div>
+    </div>
+
+    <div class="card windy-row">
+        <div class="card-header"> CLIMA ZONA XALAPA (WINDY.COM)</div>
+        <div style="flex:1;">
+            <iframe src="https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=mm&metricTemp=%C2%B0C&metricWind=m/s&zoom=10&overlay=wind&product=ecmwf&level=surface&lat=19.54&lon=-96.92" frameborder="0" style="width:100%; height:100%;"></iframe>
+        </div>
+    </div>
+
+    <div class="status-bar">
+        <div><span class="dot"></span> <span id="status-text">Sincronizando con Servidores IoT...</span></div>
+        <div id="last-update">Última lectura: --:--:--</div>
+    </div>
+
+</div>
+
+<script>
+    // Reloj
+    setInterval(() => {
+        document.getElementById('live-clock').innerText = new Date().toLocaleString('es-MX', { dateStyle: 'long', timeStyle: 'medium' });
+    }, 1000);
+
+    // Datos ThingSpeak
+    const channelID = 3199545;  
+    const readKey   = "FGNEULQYYUA5J35B"; 
+
+    async function fetchData() {
+        try {
+            const res = await fetch(`https://api.thingspeak.com/channels/${channelID}/feeds.json?api_key=${readKey}&results=1`);
+            const data = await res.json();
+            const last = data.feeds[0];
+
+            document.getElementById('temp').innerText = parseFloat(last.field1).toFixed(1) + "°";
+            document.getElementById('pres').innerText = Math.round(last.field2);
+            document.getElementById('wind').innerText = parseFloat(last.field3).toFixed(1) + " m/s";
+            document.getElementById('rain').innerText = parseFloat(last.field5).toFixed(1);
+            
+            document.getElementById('status-text').innerText = "Sistema Online - Transmisión en Vivo";
+            document.getElementById('last-update').innerText = "Utima actualizacion: " + new Date(last.created_at).toLocaleTimeString();
+        } catch (e) {
+            document.getElementById('status-text').innerText = "Error de conexión";
+        }
+    }
+
+    fetchData();
+    setInterval(fetchData, 30000);
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
