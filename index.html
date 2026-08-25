@@ -77,7 +77,7 @@
             <h1 style="margin:0; font-size: 1.4rem;">ESTACION METEOROLOGICA CCTUV</h1>
             <span id="live-clock">--:--:--</span>
         </div>
-        <div class="logo-box"><img src="https://media.istockphoto.com/id/121080798/es/foto/estaci%C3%B3n-meteorol%C3%B3gica.jpg?s=612x612&w=0&k=20&c=LjkjcRgbjEw58Czn8fAyebBS4TstOp0cWTFY2Sb5gP4=" class="header-logo"></div>
+        <div class="logo-box"><img src="https://www.uv.mx/dgdaie/files/2013/08/zLogosimbolo_color.jpg" class="header-logo"></div>
     </div>
 </header>
 
@@ -162,7 +162,7 @@
 
     // Datos ThingSpeak
     const channelID = 3199545;  
-    const readKey   = "FGNEULQYYUA5J35B"; 
+    const readKey   = "PA4YWVKSNQTVHKS4"; 
 
     async function fetchData() {
         try {
@@ -174,7 +174,7 @@
             document.getElementById('pres').innerText = Math.round(last.field2);
             document.getElementById('wind').innerText = parseFloat(last.field3).toFixed(1) + " m/s";
             document.getElementById('rain').innerText = parseFloat(last.field5).toFixed(1);
-            
+            document.getElementById('Bater').innerText = parseFloat(last.field5).toFixed(1);
             document.getElementById('status-text').innerText = "Sistema Online - Transmisión en Vivo";
             document.getElementById('last-update').innerText = "Utima actualizacion: " + new Date(last.created_at).toLocaleTimeString();
         } catch (e) {
