@@ -88,11 +88,12 @@
             <div class="card-header"> VARIABLES EN TIEMPO REAL</div>
             <div class="stats-inner-grid">
                 <div class="stat-box">
-                    <span class="stat-lbl">Temperatura</span>
+                    <span class="stat-lbl">Temperatura / Humedad </span>
                     <span class="stat-val" id="temp">--°</span>
+                    <span class="stat-val" id="hum">--°</span>
                 </div>
                 <div class="stat-box">
-                    <span class="stat-lbl">Humedad / Presión</span>
+                    <span class="stat-lbl">Presión</span>
                     <span class="stat-val" id="pres" style="font-size: 1.4rem;">--</span>
                     <span style="font-size: 0.7rem; color: gray;">hPa</span>
                 </div>
@@ -171,10 +172,11 @@
             const last = data.feeds[0];
 
             document.getElementById('temp').innerText = parseFloat(last.field1).toFixed(1) + "°";
-            document.getElementById('pres').innerText = Math.round(last.field2);
-            document.getElementById('wind').innerText = parseFloat(last.field3).toFixed(1) + " m/s";
-            document.getElementById('rain').innerText = parseFloat(last.field5).toFixed(1);
-            document.getElementById('Bater').innerText = parseFloat(last.field5).toFixed(1);
+            document.getElementById('hum ').innerText = parseFloat(last.field2).toFixed(1) + "%";
+            document.getElementById('pres').innerText = Math.round(last.field3);
+            document.getElementById('wind').innerText = parseFloat(last.field4).toFixed(1) + " m/s";
+            document.getElementById('rain').innerText = parseFloat(last.field5).toFixed(1) + "mm";
+        
             document.getElementById('status-text').innerText = "Sistema Online - Transmisión en Vivo";
             document.getElementById('last-update').innerText = "Utima actualizacion: " + new Date(last.created_at).toLocaleTimeString();
         } catch (e) {
