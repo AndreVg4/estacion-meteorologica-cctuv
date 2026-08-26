@@ -94,8 +94,8 @@
                 </div>
                 <div class="stat-box">
                     <span class="stat-lbl">Presión</span>
-                    <span class="stat-val" id="pres" style="font-size: 1.4rem;">--</span>
-                    <span style="font-size: 0.7rem; color: gray;">hPa</span>
+                    <span class="stat-val" id="pres">--°</span>
+                    
                 </div>
                 <div class="stat-box">
                     <span class="stat-lbl">Viento</span>
@@ -173,7 +173,7 @@
 
             document.getElementById('temp').innerText = parseFloat(last.field1).toFixed(1) + "°";
             document.getElementById('hum ').innerText = parseFloat(last.field2).toFixed(1) + "%";
-            document.getElementById('pres').innerText = Math.round(last.field3);
+            document.getElementById('pres').innerText = Math.round(last.field3)+ "hpa";
             document.getElementById('windspeed').innerText = parseFloat(last.field4).toFixed(1) + " m/s";
             document.getElementById('winddir').innerText = parseFloat(last.field5).toFixed(1) + "°";
             document.getElementById('rain').innerText = parseFloat(last.field6).toFixed(1) + "mm";
