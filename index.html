@@ -173,7 +173,7 @@
             const data = await res.json();
             const last = data.feeds[0];
 
-            document.getElementById('temp').innerText = parseFloat(last.field1).toFixed(1) + "°";
+            document.getElementById('temp').innerText = parseFloat(last.field1).toFixed(1) + "°C";
             document.getElementById('hum ').innerText = parseFloat(last.field2).toFixed(1) + "%";
             document.getElementById('pres').innerText = Math.round(last.field3)+ "hpa";
             document.getElementById('windspeed').innerText = parseFloat(last.field4).toFixed(1) + " m/s";
