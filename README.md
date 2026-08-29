@@ -31,18 +31,4 @@ El proyecto está concebido bajo la filosofía de **Hardware y Software Libre (O
   - Circuito de acondicionamiento y telemetría de tensión de batería (Divisor de precisión + ADS1115).
   - Alimentación autónoma compatible con panel solar, cargador MPPT y batería de respaldo.
 
----
 
-## 📂 Estructura del Repositorio
-
-```text
-├── docs/                   # Diagramas de bloques, manuales y hojas de datos
-├── firmware/               # Código fuente del firmware (PlatformIO / C++)
-│   ├── src/                # Archivo principal (main.cpp) y módulos
-│   └── platformio.ini      # Dependencias y configuración de compilación
-├── hardware/               # Esquemas, diseño de PCB (KiCad / Gerber) y modelos 3D
-│   ├── schematics/         # Diagramas esquemáticos del circuito
-│   └── pcb/                # Archivos de fabricación de la placa
-├── backend/                # Servidor de recepción de datos (FastAPI + MQTT + SQLite)
-├── web/                    # Dashboard web para visualización en tiempo real
-└── LICENSE                 # Licencia de uso libre (MIT / CERN-OHL)
