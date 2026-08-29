@@ -9,7 +9,7 @@ Repositorio oficial para el diseño, desarrollo e implementación del **Nodo Sen
 
 ---
 
-## 📌 Descripción del Proyecto
+## Descripción del Proyecto
 
 Este proyecto consiste en una estación y registrador de datos (*datalogger*) meteorológico multiparámetro de bajo consumo, orientado a redes de monitoreo ambiental distribuido y agricultura de precisión. El sistema realiza la adquisición de variables atmosféricas mediante buses industriales y digitales, ejecuta algoritmos de agregación y descomposición vectorial de viento, y ofrece almacenamiento local redundante junto con telemetría inalámbrica en tiempo real.
 
@@ -17,7 +17,7 @@ El proyecto está concebido bajo la filosofía de **Hardware y Software Libre (O
 
 ---
 
-## 🛠️ Características Principales
+## Características Principales
 
 - **Unidad de Procesamiento:** SoC ESP32-C3 (Arquitectura RISC-V a 160 MHz) / Compatibilidad con ESP32 Dual-Core.
 - **Buses de Comunicación Industrial y Digital:**
